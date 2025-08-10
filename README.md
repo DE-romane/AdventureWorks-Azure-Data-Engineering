@@ -115,7 +115,7 @@ The focus of **Phase 1** is to ingest data from a **GitHub API** and land it int
 ![](img/4.png)
 **Lookup Activity (`LookupGit`)**
 
-- Retrieves a control JSON file (`git.json`) from storage  account, which contains parameters for each file to ingest.
+- Retrieves a control JSON file (`git.json`) [Link](https://github.com/DE-romane/AdventureWorks-Azure-Data-Engineering/blob/main/codes/git.json) from storage  account, which contains parameters for each file to ingest.
 - Example of the JSON structure:
 ```json
 {
@@ -165,10 +165,10 @@ To enable **Databricks to access Azure Data Lake (ADLS Gen2)** securely:
 ##### 📓 Transformation Notebook
 
 A **Databricks Notebook** is developed for this phase. It performs the following tasks:    
-2. **Reads data** from the **Bronze container**.
-3. Applies **data cleaning and transformation
-4. **Writes the processed data** into corresponding folders in the **Silver container**.
-
+- **Reads data** from the **Bronze container**.
+- Applies **data cleaning** and transformation
+- **Writes the processed data** into corresponding folders in the **Silver container**.
+[Link](codes/silver_layer.ipynb)
 
 ---
 
@@ -206,7 +206,7 @@ Synapse offers **serverless SQL pools** (for lakehouse architecture, querying Da
 CREATE SCHEMA gold;
 ```
    - Create views: Views store queries (not data) for reusable access to Data Lake data.
-   - here the link 
+   -  [Link](codes/Create%20Views%20Gold.sql) 
 
 6. **Create External Tables** 📊:
 -----------------
