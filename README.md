@@ -8,11 +8,7 @@ Data is ingested from the **GitHub API** and processed through a **Medallion arc
 **Synapse Analytics** stores the final curated data, and **Power BI** is used for reporting.  
 The goal is to build a **scalable, automated, and production-ready solution** using key Azure services.
 
-![[project -Azure/p/img/1.png]]
-
-
-
-
+![](img/1.png)
 
 #### Data Architecture
 
@@ -94,7 +90,8 @@ The focus of **Phase 1** is to ingest data from a **GitHub API** and land it int
     - `bronze` → Raw data from the GitHub API
     - `silver` → Transformed data
     - `gold` → Data ready for reporting and analysis
-![[project -Azure/p/img/2.png]]
+
+![](img/2.png)
 
 ---
 
@@ -110,11 +107,12 @@ The focus of **Phase 1** is to ingest data from a **GitHub API** and land it int
 - **Azure Data Lake Destination**:
     - Connector Type: `Azure Data Lake Storage Gen2`
     - Name: `StorageDataLink`
-![[project -Azure/p/img/3.png]]
+
+![](img/3.png)
 
 ---
 #####  Pipeline Configuration
-![[4.png]]
+![](img/4.png)
 **Lookup Activity (`LookupGit`)**
 
 - Retrieves a control JSON file (`git.json`) from storage  account, which contains parameters for each file to ingest.
@@ -137,7 +135,8 @@ The focus of **Phase 1** is to ingest data from a **GitHub API** and land it int
         
 
 📂 **Result**: Each file from GitHub is dynamically loaded and stored as-is into its respective subfolder under the **Bronze layer**, mimicking real-world data ingestion patterns.
-![[5.png]]
+
+![](img/5.png)
 
 
 #### Phase 2 – Transforming Bronze to Silver Using Databricks
@@ -154,9 +153,10 @@ To enable **Databricks to access Azure Data Lake (ADLS Gen2)** securely:
 - A **Service Principal** (`aw_project_app`) is created using **Microsoft Entra ID** 
 - Required permissions are granted to the service principal for scoped access to the storage account.
 - Credentials are securely stored in **Databricks secrets** for use in the notebooks.
-![[project -Azure/p/img/6.png]]
+  
+![](img/6.png)
 
-![[project -Azure/p/img/7.png]]
+![](img/7.png)
 
 - A **Databricks cluster** is created to run transformation workloads.
    
@@ -173,9 +173,9 @@ A **Databricks Notebook** is developed for this phase. It performs the following
 ---
 
 ✅ **Outcome**:  
-Structured and cleansed data now resides in the **Silver layer**, ready for analytical modeling or warehousing in the next phase.
-![[Pasted image 20250809183815.png]]
+Structured and cleansed data now resides in the **Silver layer**, ready for warehousing in the next phase.
 
+![](img/99.png)
 
 #### Phase 3: Data Warehousing & Visualization (Azure Synapse Analytics & Power BI) 
 setting up **Azure Synapse Analytics** to query and serve data from the **Silver layer** of an Azure Data Lake, create a **serverless SQL database**, and enable visualization with **Power BI**. A **Synapse workspace** is created with a managed identity for secure data access, eliminating the need for a service principal. The **lakehouse** concept is used to query Data Lake files (Parquet format) with **OPENROWSET**, creating **views** and **external tables** in the **Gold layer** for reporting. 
@@ -199,7 +199,7 @@ This segment, **Phase 3** of the Azure Data Engineer project, focuses on setting
 2. **Configure Data Access (Managed Identity)** :
 3. **Create Serverless SQL Database**() :
 Synapse offers **serverless SQL pools** (for lakehouse architecture, querying Data Lake data without storing it in a database
-![[8.png]]
+![](img/8.png)
 4. **Create Schema and Views** 🗂️:
    - Create a schema to organize views in the Gold layer.
 ```sql
@@ -290,7 +290,8 @@ SELECT * FROM gold.sales
 -   **Purpose**: Enable data analysts to visualize Gold layer data using Power BI.
    - Copy **Serverless SQL Endpoint** from Synapse Studio’s workspace overview.
    - In Power BI Desktop, go to **Get Data** > **Azure** > **Azure Synapse Analytics SQL > Paste endpoint, enter database (`aw_database`), and SQL credentials.
-   ![[9.png]]
+![](img/9.png)
    - Load external table (e.g., `gold.ext_sales`) and create visualizations (e.g., line chart for `order_date` vs. `order_number`, card for `customer_key` count).
-![[10.png]]
+![](img/10.png)
+
 
